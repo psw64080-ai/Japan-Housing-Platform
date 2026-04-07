@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#22c55e"/>
+  <g transform="translate(32,30)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- roof -->
+    <path d="M-18,2 L0,-16 L18,2" fill="#fff" stroke="#fff"/>
+    <!-- house body -->
+    <rect x="-14" y="2" width="28" height="20" rx="1" fill="#fff"/>
+    <!-- door -->
+    <rect x="-4" y="10" width="8" height="12" rx="1" fill="#22c55e"/>
+    <!-- window left -->
+    <rect x="-11" y="6" width="6" height="5" rx="0.5" fill="#22c55e"/>
+    <!-- window right -->
+    <rect x="5" y="6" width="6" height="5" rx="0.5" fill="#22c55e"/>
+    <!-- chimney -->
+    <rect x="8" y="-12" width="5" height="10" rx="1" fill="#fff"/>
+  </g>
+</svg>

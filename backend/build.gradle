@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.gradle.wrapper'
+}
+
+group = 'com.japanhousing'
+version = '1.0.0'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Spring Boot Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // PostgreSQL Driver
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // Lombok (코드 간결하게)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // JSON Web Token (인증)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    
+    // Spring Security (인증/권한)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    // BCrypt (비밀번호 암호화)
+    implementation 'org.springframework.security:spring-security-crypto:6.2.0'
+    
+    // Google Cloud Translation
+    implementation 'com.google.cloud:google-cloud-translate:1.99.10'
+    
+    // AWS S3 (이미지 저장)
+    implementation 'software.amazon.awssdk:s3:2.21.0'
+    
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
