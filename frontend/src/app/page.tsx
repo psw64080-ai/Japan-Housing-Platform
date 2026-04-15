@@ -55,55 +55,57 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-light min-h-screen text-text pb-12">
+    <div className="bg-light min-h-screen text-text pb-12 font-sans tracking-tight">
       {/* 🟢 HERO SECTION: NAVER GREEN STYLE 🟢 */}
-      <div className="bg-white border-b border-border py-12 mb-8">
-        <div className="max-w-7xl mx-auto px-4">
+      <div className="bg-white border-b border-border py-16 mb-10 shadow-sm relative overflow-hidden">
+        {/* Subtle Background Pattern or Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-light/30 to-white pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-primary tracking-tight mb-3 sm:mb-4 text-center px-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary tracking-tighter mb-4 sm:mb-6 text-center px-2 drop-shadow-sm">
               쉽고 빠른 일본 주택 찾기
             </h1>
-            <p className="text-muted text-sm sm:text-base md:text-lg mb-6 sm:mb-8 text-center max-w-2xl px-2">
-              외국인이라는 이유로 막막하셨나요? 일본어부터 복잡한 서류 절차, <br className="hidden md:block"/> AI 번역과 안전한 전자계약으로 한 번에 끝내보세요.
+            <p className="text-muted text-sm sm:text-base md:text-xl md:leading-relaxed mb-6 sm:mb-10 text-center max-w-3xl px-2">
+              외국인이라는 이유로 막막하셨나요? <br className="hidden sm:block"/>
+              일본어부터 복잡한 서류 절차, <span className="text-text font-bold">AI 번역과 안전한 전자계약</span>으로 한 번에 끝내보세요.
             </p>
 
             {/* SEARCH BAR - NAVER GREEN THICK BORDER STYLE */}
-            <div className="w-full max-w-3xl mb-8 sm:mb-12 px-2">
-              <div className="flex border-[3px] border-primary rounded-sm overflow-hidden bg-white shadow-sm">
+            <div className="w-full max-w-3xl mb-12 sm:mb-16 px-2">
+              <div className="flex border-[3px] border-primary rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
                 <input
                   type="text"
-                  className="flex-1 bg-transparent px-3 sm:px-5 py-3 sm:py-4 outline-none text-sm sm:text-lg font-bold placeholder-muted min-w-0"
-                  placeholder="도쿄, 오사카, 지하철역 이름 검색"
+                  className="flex-1 bg-transparent px-4 sm:px-6 py-4 sm:py-5 outline-none text-base sm:text-xl font-bold placeholder-muted/60 min-w-0"
+                  placeholder="역 이름, 지역, 혹은 키워드 검색"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 <button
                   onClick={handleSearch}
-                  className="bg-primary text-white font-extrabold text-sm sm:text-lg px-4 sm:px-10 py-3 sm:py-4 hover:bg-primary-dark transition flex items-center gap-1 sm:gap-2 flex-shrink-0"
+                  className="bg-primary text-white font-extrabold text-base sm:text-xl px-6 sm:px-12 py-4 sm:py-5 hover:bg-primary-dark transition-colors flex items-center gap-1 sm:gap-2 flex-shrink-0"
                 >
-                  <span className="text-base sm:text-xl font-bold">🔍</span><span className="hidden sm:inline"> 검색</span>
+                  <span className="text-lg sm:text-2xl font-bold">🔍</span><span className="hidden sm:inline"> 검색</span>
                 </button>
               </div>
             </div>
 
             {/* QUICK LINKS / CATEGORIES */}
-            <div className="grid grid-cols-4 sm:flex sm:flex-wrap sm:justify-center gap-2 sm:gap-4 max-w-5xl w-full px-2">
+            <div className="grid grid-cols-4 sm:flex sm:flex-wrap sm:justify-center gap-3 sm:gap-5 max-w-5xl w-full px-2">
               {[
-                { label: '매물 찾기', icon: '🏢', href: '/properties' },
+                { label: '매물 찾기', icon: '🏢', href: '/properties', highlight: true },
                 { label: '셰어하우스', icon: '🏘️', href: '/sharehouses' },
-                { label: '이사·청소', icon: '🚚', href: '/moving-services' },
                 { label: '초기비용', icon: '💰', href: '/calculator' },
                 { label: '전자계약', icon: '✍️', href: '/contracts' },
-                { label: '동네 생활', icon: '🤝', href: '/community' },
-                { label: '생활 가이드', icon: '📖', href: '/guides' }
+                { label: '이사·생활', icon: '🚚', href: '/moving-services' },
+                { label: '커뮤니티', icon: '🤝', href: '/community' },
               ].map((category) => (
-                <Link key={category.label} href={category.href} className="sm:w-[120px]">
-                  <div className="bg-white border border-border rounded-lg group p-2 sm:p-4 text-center hover:border-primary hover:shadow-md transition cursor-pointer flex flex-col items-center h-full">
-                    <div className="text-2xl sm:text-3xl mb-1 sm:mb-3 group-hover:scale-110 transition-transform">
+                <Link key={category.label} href={category.href} className="sm:w-[130px]">
+                  <div className={`bg-white border rounded-2xl group p-3 sm:p-5 text-center transition-all duration-300 cursor-pointer flex flex-col items-center h-full shadow-sm hover:-translate-y-1 hover:shadow-md ${category.highlight ? 'border-primary shadow-primary-light/50' : 'border-border/60 hover:border-primary'}`}>
+                    <div className="text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
                       {category.icon}
                     </div>
-                    <span className="text-[11px] sm:text-sm font-bold text-text group-hover:text-primary transition-colors leading-tight">
+                    <span className={`text-[12px] sm:text-[15px] font-bold transition-colors leading-tight ${category.highlight ? 'text-primary' : 'text-text group-hover:text-primary'}`}>
                       {category.label}
                     </span>
                   </div>
@@ -116,29 +118,32 @@ export default function Home() {
 
       {/* 🏢 FEATURED PROPERTIES SECTION */}
       {featuredProps.length > 0 && (
-        <div className="max-w-7xl mx-auto px-4 mb-16">
-          <div className="flex justify-between items-end mb-6">
+        <div className="max-w-7xl mx-auto px-4 mb-20 relative z-20">
+          <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-xl md:text-2xl font-bold">최신 추천 하우스</h2>
-              <p className="text-sm text-muted mt-1">AI가 추천하는 인기 다국어 대응 안심 매물</p>
+              <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">AI 강력 추천 매물</h2>
+              <p className="text-sm md:text-base text-muted mt-2">안전하게 번역된 보증 매물을 확인하세요</p>
             </div>
             <Link href="/properties">
-              <span className="text-sm font-bold text-primary hover:underline flex items-center gap-1">전체보기 {'>'}</span>
+              <span className="text-sm md:text-base font-bold text-primary hover:text-primary-dark hover:underline flex items-center gap-1 transition-colors">전체보기 {'>'}</span>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProps.map((p) => (
               <Link key={p.id} href={`/properties/${p.id}`}>
-                <div className="bg-white border border-border overflow-hidden group cursor-pointer hover:shadow-lg transition hover:border-primary">
+                <div className="bg-white border flex flex-col h-full border-border/50 rounded-2xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                   {/* Property Image */}
-                  <div className="bg-light relative h-52 overflow-hidden border-b border-border">
+                  <div className="bg-light relative h-60 overflow-hidden">
                     {(() => {
                       let imgUrl: string | null = null;
                       if (p.imagesJson && p.imagesJson !== '[]') { try { imgUrl = JSON.parse(p.imagesJson)[0]; } catch {} }
                       if (!imgUrl && p.images) { imgUrl = p.images.split(',')[0]?.trim() || null; }
                       return imgUrl ? (
-                        <img src={imgUrl} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div className="w-full h-full">
+                          <img src={imgUrl} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        </div>
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-muted bg-gray-100">
                           <span className="text-4xl mb-2">📸</span>
@@ -148,30 +153,32 @@ export default function Home() {
                     })()}
                     
                     {/* Tags overlay */}
-                    <div className="absolute top-3 left-3 flex flex-col gap-2">
-                      {p.foreignerWelcome && <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 shadow-sm">외국인 OK</span>}
-                      {p.petFriendly && <span className="bg-primary text-white text-xs font-bold px-2 py-1 shadow-sm">반려동물 OK</span>}
+                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                      {p.foreignerWelcome && <span className="bg-primary/90 backdrop-blur-sm text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm tracking-wide">외국인 환영</span>}
+                      {p.petFriendly && <span className="bg-blue-600/90 backdrop-blur-sm text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm tracking-wide">반려동물 가능</span>}
                     </div>
                   </div>
 
                   {/* Property Info */}
-                  <div className="p-4">
-                    <p className="text-xs text-muted mb-1 flex items-center gap-1 line-clamp-1 w-full truncate">
-                      <span>📍</span> {p.addressKo || p.address}
+                  <div className="p-5 flex flex-col flex-1">
+                    <p className="text-xs text-muted mb-2 flex items-center gap-1 line-clamp-1 w-full truncate">
+                      <span className="text-base">📍</span> {p.addressKo || p.address}
                     </p>
-                    <h3 className="font-bold text-base mb-3 line-clamp-1 group-hover:text-primary transition-colors h-6">{p.titleKo || p.title}</h3>
+                    <h3 className="font-extrabold text-lg mb-4 line-clamp-2 group-hover:text-primary transition-colors text-text/90 leading-snug h-12">{p.titleKo || p.title}</h3>
                     
-                    <div className="flex items-center justify-between mt-auto border-t border-border pt-3">
+                    <div className="flex items-center justify-between mt-auto border-t border-border/40 pt-4">
                       <div>
-                        <div className="text-primary font-extrabold text-lg">
-                          <span className="text-sm font-semibold text-muted mr-1">월세</span>
+                        <div className="text-primary font-extrabold text-2xl tracking-tighter">
+                          <span className="text-sm font-bold text-muted/80 mr-1.5 align-middle">월</span>
                           ¥{(p.monthlyRent ?? p.monthlyPrice ?? 0).toLocaleString()}
                         </div>
-                        <p className="text-[11px] text-blue-500 font-bold">≈ ₩{toKrw(p.monthlyRent ?? p.monthlyPrice ?? 0)}</p>
+                        <p className="text-xs text-blue-500/80 font-bold mt-0.5 tracking-tight">약 ₩{toKrw(p.monthlyRent ?? p.monthlyPrice ?? 0)}</p>
                       </div>
                       {(p.averageRating ?? 0) > 0 && (
-                        <div className="flex items-center gap-1 bg-orange-50 px-2 py-1 text-orange-600 text-xs font-bold rounded">
-                          <span>⭐</span> {(p.averageRating ?? 0).toFixed(1)}
+                        <div className="flex flex-col items-end">
+                           <div className="flex items-center gap-1 bg-yellow-100/80 px-2.5 py-1 text-yellow-700 text-sm font-extrabold rounded-lg">
+                             <span>⭐</span> {(p.averageRating ?? 0).toFixed(1)}
+                           </div>
                         </div>
                       )}
                     </div>

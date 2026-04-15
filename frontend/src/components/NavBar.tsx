@@ -77,8 +77,8 @@ export default function NavBar() {
   };
 
   return (
-    <header className="bg-white border-b border-border sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
+    <header className="bg-white/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50 shadow-sm transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* TOP UTILITY MENU (Naver style tiny top bar) */}
         <div className="hidden lg:flex justify-end items-center h-8 text-[12px] text-muted space-x-4 border-b border-gray-100">
           <Link href="/" className="hover:text-primary transition-colors">{t.nav.home}</Link>
@@ -104,31 +104,30 @@ export default function NavBar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0 mr-4 lg:mr-8">
-            <img src="/favicon.svg" alt="JHC" className="w-8 h-8 sm:w-9 sm:h-9 rounded" />
-            <span className="font-extrabold text-lg sm:text-xl lg:text-2xl tracking-tighter text-primary">
-              <span className="hidden sm:inline">Housing Connect</span>
-              <span className="sm:hidden">JHC</span>
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 mr-4 lg:mr-8 hover:opacity-90 transition-opacity">
+            <img src="/favicon.svg" alt="JHC" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-border/20" />
+            <span className="font-extrabold text-xl sm:text-2xl lg:text-3xl tracking-tighter text-primary drop-shadow-sm">
+              <span className="hidden lg:inline">Housing Connect</span>
+              <span className="inline lg:hidden">JHC</span>
             </span>
           </Link>
 
           {/* DESKTOP NAVIGATION */}
-          <nav className="hidden lg:flex flex-1 items-center h-full">
-            <ul className="flex items-center h-full space-x-1 lg:space-x-4">
+          <nav className="hidden lg:flex flex-1 items-center justify-center h-full">
+            <ul className="flex items-center h-full space-x-2 lg:space-x-8">
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href || pathname?.startsWith(link.href + '/');
                 return (
-                  <li key={link.href} className="h-full">
+                  <li key={link.href} className="h-full flex items-center">
                     <Link
                       href={link.href}
-                      className={`h-full flex items-center px-3 relative font-bold text-[16px] transition-colors whitespace-nowrap ${
-                        isActive ? 'text-primary' : 'text-text hover:text-primary'
+                      className={`text-[16px] lg:text-[17px] font-bold px-4 py-2 rounded-xl transition-all duration-200 whitespace-nowrap ${
+                        isActive 
+                          ? 'text-primary bg-primary-light/50' 
+                          : 'text-text hover:text-primary hover:bg-gray-50'
                       }`}
                     >
                       {link.label}
-                      {isActive && (
-                        <span className="absolute bottom-0 left-0 w-full h-[3px] bg-primary"></span>
-                      )}
                     </Link>
                   </li>
                 );

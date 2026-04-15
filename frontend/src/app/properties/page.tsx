@@ -179,31 +179,40 @@ export default function PropertiesPage() {
   const resetFilters = () => { setSearch(''); setMinPrice(0); setMaxPrice(300000); setRoomType('전체'); setForeignerOnly(false); setPetOnly(false); setAmenityFilter([]); setSortBy('rent-asc'); };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-light py-10">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-extrabold text-gray-900 mb-1">🏢 매물 검색</h1>
-            <p className="text-gray-500 text-sm">외국인 환영 매물부터 반려동물 OK까지, 조건에 맞는 일본 주택을 찾아보세요</p>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between border-b border-border/50 pb-5">
+          <div className="flex flex-col">
+            <h1 className="text-3xl font-extrabold text-text mb-2 tracking-tight">🏢 일본 매물 검색</h1>
+            <p className="text-muted text-[15px] font-medium tracking-tight">외국인 환영 매물부터 반려동물 OK까지, 조건에 맞는 안전한 주택을 찾아보세요.</p>
           </div>
-          <Link href="/properties/compare" className="text-xs font-bold text-green-600 border border-green-500 px-3 py-1.5 rounded hover:bg-green-50 transition whitespace-nowrap self-start">
-            📊 비교하기
+          <Link href="/properties/compare" className="text-sm font-bold text-primary border-2 border-primary px-5 py-2.5 rounded-xl hover:bg-primary hover:text-white transition-all shadow-sm mt-4 sm:mt-0 whitespace-nowrap truncate w-fit self-start sm:self-end">
+            📊 매물 비교하기
           </Link>
         </div>
 
         {/* Search bar + filter toggle */}
-        <div className="bg-white border border-gray-200 p-4 mb-4">
-          <div className="flex gap-3 mb-3">
-            <input type="text" placeholder="지역명·역이름·키워드 검색" value={search} onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 border border-gray-300 px-3 sm:px-4 py-3 text-sm outline-none focus:border-green-500 transition min-w-0" />
-            <button className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 sm:px-6 py-3 text-sm transition whitespace-nowrap flex-shrink-0">🔍 검색</button>
-          </div>
-          <div className="flex items-center justify-between">
-            <button onClick={() => setFiltersOpen(!filtersOpen)} className="text-sm text-green-600 font-bold hover:text-green-700 transition">
-              {filtersOpen ? '▲ 필터 접기' : '▼ 상세 필터 열기'}
+        <div className="bg-white border text-text font-bold text-sm tracking-tight border-border/60 rounded-2xl p-5 mb-8 shadow-sm">
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
+            <input 
+              type="text" 
+              placeholder="지역명, 역이름, 혹은 기타 키워드로 검색해보세요" 
+              value={search} 
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 bg-gray-50 border border-border/60 rounded-xl px-5 py-3.5 text-base outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all min-w-0" 
+            />
+            <button className="bg-primary hover:bg-primary-dark text-white rounded-xl font-extrabold text-base px-8 py-3.5 transition-all shadow-sm flex items-center justify-center gap-2 flex-shrink-0">
+              <span>🔍</span> 검색
             </button>
-            <p className="text-xs text-gray-400">총 <b className="text-green-600">{filtered.length}</b>건</p>
+          </div>
+          <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+            <button onClick={() => setFiltersOpen(!filtersOpen)} className="flex items-center gap-1 text-[15px] text-primary font-extrabold hover:text-primary-dark transition-colors">
+              {filtersOpen ? '▲ 상세 필터 닫기' : '▼ 상세 필터 열기'}
+            </button>
+            <div className="bg-gray-50 px-3 py-1 rounded-lg text-sm text-muted font-bold border border-gray-100">
+              검색결과: <span className="text-primary text-base font-extrabold ml-0.5">{filtered.length}</span><span className="font-medium text-xs ml-0.5">건</span>
+            </div>
           </div>
         </div>
 
@@ -287,46 +296,56 @@ export default function PropertiesPage() {
             <p className="font-bold">매물을 불러오는 중...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
+          <div className="text-center py-20 text-muted">
             <div className="text-4xl mb-4">📭</div>
-            <p className="font-bold">조건에 맞는 매물이 없습니다</p>
-            <p className="text-sm mt-2">검색 조건을 변경하거나 <button onClick={resetFilters} className="text-green-500 font-bold underline">필터를 초기화</button>해 보세요</p>
+            <p className="font-extrabold text-lg text-text">조건에 맞는 매물이 없습니다</p>
+            <p className="text-sm mt-3 font-medium">검색 조건을 변경하거나 <button onClick={resetFilters} className="text-primary font-bold hover:underline">필터를 초기화</button>해 보세요</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((p) => (
               <Link key={p.id} href={`/properties/${p.id}`}>
-                <div className="bg-white border border-gray-200 overflow-hidden group cursor-pointer hover:shadow-lg hover:border-green-400 transition">
-                  <div className="h-48 bg-gray-100 relative overflow-hidden">
+                <div className="bg-white border flex flex-col h-full border-border/50 rounded-2xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="h-60 bg-light relative overflow-hidden">
                     {getImageUrl(p) ? (
-                      <img src={getImageUrl(p)!} alt={p.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div className="w-full h-full">
+                        <img src={getImageUrl(p)!} alt={p.title}
+                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                      </div>
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                        <span className="text-4xl mb-1">📸</span>
+                      <div className="w-full h-full flex flex-col items-center justify-center text-muted">
+                        <span className="text-4xl mb-2">📸</span>
                         <span className="text-xs">이미지 준비중</span>
                       </div>
                     )}
-                    <div className="absolute top-2 left-2 flex flex-col gap-1">
-                      {p.foreignerWelcome && <span className="bg-blue-600 text-white text-[11px] font-bold px-2 py-0.5">🌐 외국인 OK</span>}
-                      {p.petFriendly && <span className="bg-amber-500 text-white text-[11px] font-bold px-2 py-0.5">🐾 반려동물 OK</span>}
+                    <div className="absolute top-3 left-3 flex flex-col gap-2">
+                      {p.foreignerWelcome && <span className="bg-primary/90 backdrop-blur-sm text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm">🌐 외국인 환영</span>}
+                      {p.petFriendly && <span className="bg-blue-500/90 backdrop-blur-sm text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm">🐾 반려동물 가능</span>}
                     </div>
-                    {p.roomType && <span className="absolute top-2 right-2 bg-gray-800 bg-opacity-75 text-white text-[11px] font-bold px-2 py-0.5">{p.roomType}</span>}
-                    <div className="absolute bottom-2 right-2">
+                    {p.roomType && <span className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs font-extrabold px-3 py-1.5 rounded-full tracking-wider">{p.roomType}</span>}
+                    <div className="absolute bottom-3 right-3 z-10 transition-transform hover:scale-110">
                       <SaveButton propertyId={p.id} initialSaved={savedIds.includes(p.id)} size="sm" />
                     </div>
                   </div>
-                  <div className="p-4">
-                    <p className="text-xs text-gray-400 mb-1 truncate">📍 {p.addressKo || p.address}</p>
-                    <h3 className="font-bold text-sm mb-2 line-clamp-1 group-hover:text-green-600 transition-colors">{p.titleKo || p.title}</h3>
-                    {(p.nearbyStationKo || p.nearbyStation) && <p className="text-[11px] text-gray-400 mb-2 truncate">🚃 {p.nearbyStationKo || p.nearbyStation}</p>}
-                    <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+                  <div className="p-5 flex flex-col flex-1">
+                    <p className="text-xs text-muted mb-2 flex items-center truncate w-full">
+                      <span className="text-base mr-1">📍</span> {p.addressKo || p.address}
+                    </p>
+                    <h3 className="font-extrabold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors text-text/90 leading-snug h-12">{p.titleKo || p.title}</h3>
+                    {(p.nearbyStationKo || p.nearbyStation) && <p className="text-xs font-medium text-muted/80 mb-3 truncate bg-gray-50 px-2 py-1 rounded w-max border border-gray-100">🚃 {p.nearbyStationKo || p.nearbyStation}</p>}
+                    
+                    <div className="flex items-center justify-between mt-auto border-t border-border/40 pt-4">
                       <div>
-                        <span className="text-green-600 font-extrabold text-lg">¥{(p.monthlyRent ?? 0).toLocaleString()}<span className="text-xs font-normal text-gray-400">/월</span></span>
-                        <p className="text-[11px] text-blue-500 font-bold">≈ ₩{toKrw(p.monthlyRent ?? 0)}</p>
+                        <span className="text-primary font-extrabold text-2xl tracking-tighter">¥{(p.monthlyRent ?? 0).toLocaleString()}<span className="text-sm font-semibold text-muted/80 ml-1">/월</span></span>
+                        <p className="text-[12px] text-blue-500/80 font-bold tracking-tight mt-0.5">약 ₩{toKrw(p.monthlyRent ?? 0)}</p>
                       </div>
                       {(p.averageRating ?? 0) > 0 && (
-                        <span className="text-xs bg-orange-50 text-orange-600 font-bold px-2 py-1">⭐ {p.averageRating.toFixed(1)}</span>
+                        <div className="flex flex-col items-end">
+                           <div className="flex items-center gap-1 bg-yellow-100/80 px-2.5 py-1 text-yellow-700 text-sm font-extrabold rounded-lg">
+                             <span>⭐</span> {(p.averageRating).toFixed(1)}
+                           </div>
+                        </div>
                       )}
                     </div>
                   </div>

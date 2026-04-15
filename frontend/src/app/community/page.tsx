@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getCommunityPosts, togglePostLike } from '@/lib/api/client';
-import { isLoggedIn } from '@/lib/auth';
-import { useRouter } from 'next/navigation';
 
 interface Post {
   id: number;
@@ -68,20 +66,11 @@ function timeAgo(dateStr?: string): string {
 }
 
 export default function CommunityPage() {
-  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('latest');
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
-
-  const handleWriteClick = (e: React.MouseEvent) => {
-    if (!isLoggedIn()) {
-      e.preventDefault();
-      alert('🔒 커뮤니티 글쓰기는 로그인 후 이용 가능합니다!');
-      router.push('/login');
-    }
-  };
 
   const loadPosts = async (cat: string, s: string) => {
     setLoading(true);
@@ -115,23 +104,21 @@ export default function CommunityPage() {
   const redditPosts = posts.filter(p => p.source === 'reddit');
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
-      {/* Hero Banner */}
-      <div className="bg-gradient-to-br from-purple-600 via-pink-600 to-rose-500 text-white py-12 mb-8">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-5xl mb-3">🤝</div>
-          <h1 className="text-3xl font-extrabold mb-2">이웃 커뮤니티</h1>
-          <p className="text-purple-100 text-base">일본에 거주하는 외국인들과 정보를 공유하고, 같은 지역의 이웃과 소통하세요</p>
-        </div>
-      </div>
-
+    <div className="min-h-[calc(100vh-200px)] bg-gray-50 py-10">
       <div className="max-w-4xl mx-auto px-4">
+        {/* 헤더 */}
+        <div className="mb-8">
+          <h1 className="text-2xl font-extrabold text-gray-900 mb-2">🤝 이웃 커뮤니티</h1>
+          <p className="text-gray-500 text-sm">일본에 거주하는 외국인들과 정보를 공유하고, 같은 지역의 이웃과 소통하세요</p>
+        </div>
+
         {/* 글쓰기 바 */}
-        <Link href="/community/new" onClick={handleWriteClick}
-          className="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-4 mb-6 hover:border-purple-300 hover:shadow-md transition group text-left w-full">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full text-white flex items-center justify-center text-sm font-extrabold flex-shrink-0">나</div>
-          <div className="flex-1 bg-gray-100 rounded-xl px-4 py-2.5 text-sm text-gray-400 group-hover:bg-purple-50 transition">질문이나 팁을 공유해보세요...</div>
-          <span className="bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition flex-shrink-0">글쓰기</span>
+        <Link href="/community/new" className="block bg-white border border-gray-200 p-4 mb-6 hover:border-green-300 transition">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-green-500 rounded-full text-white flex items-center justify-center text-sm font-bold flex-shrink-0">나</div>
+            <div className="flex-1 bg-gray-100 px-4 py-2.5 text-sm text-gray-400">질문이나 팁을 공유해보세요...</div>
+            <span className="bg-green-500 hover:bg-green-600 text-white text-sm font-bold px-5 py-2.5 transition flex-shrink-0">글쓰기</span>
+          </div>
         </Link>
 
         {/* 카테고리 탭 + 정렬 */}
@@ -139,10 +126,10 @@ export default function CommunityPage() {
           <div className="flex gap-1.5 flex-wrap">
             {CATEGORIES.map(c => (
               <button key={c.key} onClick={() => setCategory(c.key)}
-                className={`text-xs font-bold px-4 py-2 rounded-full border transition ${
+                className={`text-xs font-bold px-3 py-1.5 border transition ${
                   category === c.key
-                    ? 'bg-purple-500 text-white border-purple-500 shadow-sm'
-                    : 'bg-white text-gray-500 border-gray-200 hover:border-purple-300'
+                    ? 'bg-green-500 text-white border-green-500'
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-green-300'
                 }`}>
                 {c.icon} {c.label}
               </button>
@@ -152,7 +139,7 @@ export default function CommunityPage() {
             {SORT_OPTIONS.map(s => (
               <button key={s.key} onClick={() => setSort(s.key)}
                 className={`text-[11px] font-bold px-2.5 py-1 transition ${
-                  sort === s.key ? 'text-purple-600 underline' : 'text-gray-400 hover:text-gray-600'
+                  sort === s.key ? 'text-green-600 underline' : 'text-gray-400 hover:text-gray-600'
                 }`}>
                 {s.label}
               </button>
@@ -178,10 +165,10 @@ export default function CommunityPage() {
 
               {userPosts.map((post) => (
                 <Link key={post.id} href={`/community/${post.id}`}
-                  className="block bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:-translate-y-0.5 hover:border-purple-200 transition-all group">
+                  className="block bg-white border border-gray-200 p-5 hover:shadow-md hover:border-green-300 transition group">
                   <div className="flex items-center gap-2 mb-2.5">
                     {post.category && (
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${categoryColors[post.category] || categoryColors['자유']}`}>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 border ${categoryColors[post.category] || categoryColors['자유']}`}>
                         {post.category}
                       </span>
                     )}
@@ -189,7 +176,7 @@ export default function CommunityPage() {
                     <span className="text-[10px] text-gray-300">·</span>
                     <span className="text-[11px] text-gray-400">{timeAgo(post.createdAt)}</span>
                   </div>
-                  <h3 className="font-bold text-[15px] text-gray-800 mb-1.5 group-hover:text-purple-600 transition">{post.title}</h3>
+                  <h3 className="font-bold text-[15px] text-gray-800 mb-1.5 group-hover:text-green-600 transition">{post.title}</h3>
                   <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">{post.content}</p>
                   <div className="flex items-center gap-5 mt-3.5 pt-3 border-t border-gray-100 text-xs text-gray-400">
                     <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(post.id); }}
@@ -235,12 +222,12 @@ export default function CommunityPage() {
         )}
 
         {/* 안내 */}
-        <div className="mt-8 bg-purple-50 border border-purple-200 rounded-2xl p-5">
-          <h3 className="font-bold text-sm text-purple-700 mb-2">📌 커뮤니티 이용 안내</h3>
-          <ul className="text-xs text-purple-600 space-y-1">
+        <div className="mt-8 bg-green-50 border border-green-200 p-5">
+          <h3 className="font-bold text-sm text-green-700 mb-2">📌 커뮤니티 이용 안내</h3>
+          <ul className="text-xs text-green-600 space-y-1">
             <li>• 일본 생활에 관한 질문, 정보 공유, 이웃 모임 등 자유롭게 소통하세요</li>
+            <li>• Reddit r/japanlife의 실시간 게시물도 함께 표시됩니다</li>
             <li>• 비방, 광고, 부적절한 내용은 삭제될 수 있습니다</li>
-            <li>• 다양한 국적의 사용자들이 함꼬 이용하는 공간입니다. 상호 존중해 주세요 🤝</li>
           </ul>
         </div>
       </div>
