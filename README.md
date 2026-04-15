@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏘️ Japan Housing Platform - 완전 가이드
 
 ## 📋 프로젝트 개요
@@ -353,3 +354,6 @@ docker-compose up -d
 **마지막 업데이트**: 2026년 3월 27일  
 **버전**: 0.1.0-beta (로그인 기능 추가)
 
+=======
+# Japan-Housing-Platform
+>>>>>>> 0e4853cf476e7d69f693c3d7a81784f825940cb0
